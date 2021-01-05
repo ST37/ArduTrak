@@ -11,6 +11,6 @@ In addition, an important part of mixing the wheel control channels can be done 
 An Arduino Pro Micro Clone with a 32U4 processor is currently in use.  
 The code _cannot_ be executed with a UNO or the like because a second serial port is missing there.  
 At the moment I'm working on integrating the S-BUS protocol to control servos and lights.  
-He will have some modes that influence the driving behavior, depending on channel values ​​(switch on the transmitter).  
+He will have some modes that influence the driving behavior(slow mode, crawler mode ...), depending on channel values ​​(switch on the transmitter).  
 In addition to measuring the LiPo voltage, gyro data, a compass (based on the GY-9250) and an integration for controlling MinimOSD are also acquired.  
 This is followed by other protocols such as IBUS and EX_BUS.  
