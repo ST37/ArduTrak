@@ -40,19 +40,19 @@ void setup() {
   // Motor configuration right
   Rservo.attach(5); // Hardware pin for the right motor
   TrimmR = 0;       // Trimm
-  MDR = -1;         // direction of the right motor
+  MDR = 1;         // direction of the right motor
   Rweel = Mpwm + TrimmR; //Start setting
   
   // Motor configuration left
   Lservo.attach(6); // Hardware pin for left motor
   TrimmL = 0;       // Trimm
-  MDL = -1;         // direction of the left motor
+  MDL =  1;         // direction of the left motor
   Lweel = Mpwm + TrimmL; //Start setting
   
   // Deadzone 
   DZ = 10 ;
   //Debugging Mode thrue -> Channel's to Serial Port
-  Debug = true; 
+  Debug = false; 
   // Calibration Mode
   CalibS = false;
 }
@@ -67,8 +67,11 @@ void loop() {
     
     // Drive Mode 1 Normal
     if(S1 < 1500){
-      Rraw = Mpwm-(((Tval-(Sval-Mpwm)-Mpwm)));
-      Lraw = Mpwm+(((Tval+(Sval-Mpwm)-Mpwm)));
+      Rraw = Mpwm-Tval+Sval;
+      // Rraw = Mpwm-(Tval-(Sval-Mpwm)-Mpwm);   
+      Lraw = -Mpwm+Tval+Sval;   
+      //Lraw = Mpwm+(Tval+(Sval-Mpwm)-Mpwm);
+      
       }
       
     // Drive Mode 2 Crawling 
@@ -78,7 +81,7 @@ void loop() {
         Rraw = Mpwm;
       }
       if (Sval <= (Mpwm-DZ)){ 
-        Rraw = Mpwm - (Tval-Mpwm) ;
+        Rraw = Mpwm - (Tval-Mpwm);
         Lraw = Mpwm;
       }
       
@@ -121,17 +124,4 @@ void loop() {
     
   }
   t++;
-}
-
-
-int expo(float pos, float amount)
-{
- pos = pos / 100;
- amount = amount / 100;
- if (amount < 0) {
-   float temp = pow((float)pos,(float)(1.0/3.0));
-   return (((1-amount)*pos)+((amount*temp)))*100;
- } else {
-   return (((1-amount)*pos)+((amount*pow(pos,3))))*100;
- }
 }
